@@ -1,6 +1,5 @@
 var controllerOptions = {};
-var x = window.innerWidth/2;
-var y = window.innerHeight/2;
+var rawXMin = Number.POSITIVE_INFINITY, rawXMax = Number.NEGATIVE_INFINITY, rawYMin = Number.POSITIVE_INFINITY, rawYMax = Number.NEGATIVE_INFINITY;
 Leap.loop(controllerOptions, function(frame){
   clear();
   //x+=Math.random()*2-1
