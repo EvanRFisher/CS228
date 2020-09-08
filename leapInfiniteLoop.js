@@ -3,7 +3,6 @@ var x = window.innerWidth/2;
 var y = window.innerHeight/2;
 Leap.loop(controllerOptions, function(frame){
   clear();
-  //circle(x,y,50);
   //x+=Math.random()*2-1
   //y+=Math.random()*2-1
   HandleFrame(frame);
@@ -28,4 +27,5 @@ function HandleFinger(finger){
   y = finger.tipPosition[1]
   z = finger.tipPosition[2]
   console.log(finger.tipPosition);
+  circle(x,y,50);
 }
