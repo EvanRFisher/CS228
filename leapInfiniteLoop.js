@@ -40,7 +40,8 @@ function HandleFinger(finger){
   }
 
   screenX = ((x-rawXMin)/(rawXMax-rawXMin))*window.innerWidth;
+  screenY = window.innerHeight - ((y-rawYMin)/(rawYMax-rawYMin))*window.innerHeight;
   console.log(rawXMin,rawXMax,rawYMin,rawYMax);
 
-  circle(screenX,window.innerHeight - y,50);
+  circle(screenX, screenY,50);
 }
