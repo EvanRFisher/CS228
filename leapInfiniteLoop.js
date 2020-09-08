@@ -24,5 +24,8 @@ function HandleHand(hand){
   }
 }
 function HandleFinger(finger){
+  x = finger.tipPosition[0]
+  y = finger.tipPosition[1]
+  z = finger.tipPosition[2]
   console.log(finger.tipPosition);
 }
