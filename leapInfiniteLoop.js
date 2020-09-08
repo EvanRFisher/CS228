@@ -6,6 +6,10 @@ Leap.loop(controllerOptions, function(frame){
   //circle(x,y,50);
   //x+=Math.random()*2-1
   //y+=Math.random()*2-1
+  HandleFrame(frame);
+});
+
+function HandleFrame(frame){
   if (frame.hands.length >=1) {
     hand = frame.hands[0];
     fingers = hand.fingers;
@@ -15,4 +19,4 @@ Leap.loop(controllerOptions, function(frame){
       }
     }
   }
-});
+}
