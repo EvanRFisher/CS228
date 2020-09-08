@@ -7,6 +7,6 @@ Leap.loop(controllerOptions, function(frame){
   //x+=Math.random()*2-1
   //y+=Math.random()*2-1
   if (frame.hands.length >=1) {
-  console.log(frame.hands);
+  console.log(frame.hands[0]);
   }
 });
