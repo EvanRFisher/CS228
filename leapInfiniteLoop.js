@@ -6,5 +6,5 @@ Leap.loop(controllerOptions, function(frame){
   //circle(x,y,50);
   //x+=Math.random()*2-1
   //y+=Math.random()*2-1
-  console.log(frame);
+  console.log(frame.hands);
 });
