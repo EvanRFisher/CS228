@@ -25,6 +25,21 @@ function HandleFinger(finger){
   x = finger.tipPosition[0]
   y = finger.tipPosition[1]
   z = finger.tipPosition[2]
-  console.log(finger.tipPosition);
+
+  if (x<rawXMin) {
+    rawXMin = x;
+  }
+  if (x>rawXMax) {
+    rawXMax = x;
+  }
+  if (y<rawYMin) {
+    rawYMin = y;
+  }
+  if (y>rawYMax) {
+    rawYMax = y;
+  }
+
+  console.log(rawXMin,rawXMax,rawYMin,rawYMax);
+
   circle(x,window.innerHeight - y,50);
 }
