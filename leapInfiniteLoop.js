@@ -19,7 +19,10 @@ function HandleHand(hand){
   fingers = hand.fingers;
   for (var finger of fingers) {
     if (finger.type == 1) {
-      console.log(finger);
+      HandleFinger(finger);
     }
   }
+}
+function HandleFinger(finger){
+  console.log(finger);
 }
