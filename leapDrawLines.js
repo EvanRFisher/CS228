@@ -30,10 +30,11 @@ function HandleFinger(finger){
 function HandleBone(bone){
   tip = bone.nextJoint
   base = bone.prevJoint
+  var bx,by,tx,ty;
   [bx,by]= TransformCoordinates(base[0], base[1]);
   [tx,ty]= TransformCoordinates( tip[0],  tip[1]);
   strokeWeight(9-2*bone.type);
-  stroke(80-20*bone.type);
+  stroke(200-40*bone.type);
   line(bx,by,tx,ty);
 }
 function TransformCoordinates(x,y){
