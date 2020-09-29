@@ -1,5 +1,5 @@
 trainingCompleted = false;
-const flowerTypes = ["Iris-setosa","Iris-versicolor","Iris-virginica"]
+const flowerTypes = ["Iris-setosa","Iris-versicolor","Iris-virginica"];
 const knnClassifier = ml5.KNNClassifier();
 
 var testingSampleIndex = 1;
@@ -155,6 +155,8 @@ var irisData =nj.array([[5.1,3.5,1.4,0.2,0],
                         [6.2,3.4,5.4,2.3,2],
                         [5.9,3,5.1,1.8,2]]);
 
+var predictedClassLabels = nj.zeroes(numSamples)
+
 var numSamples = irisData.shape[0];
 var numFeatures = irisData.shape[1];
 function draw(){
@@ -163,26 +165,63 @@ function draw(){
     Train();
   }
   Test();
+  //
+  for (var i = 0; i < numSamples; i++) {
+    var x = irisData.get(i,0),
+        y = irisData.get(i,1),
+        c = irisData.get(i,4);
+
+    switch (c) {
+      case 0:
+        fill(color(255,0,0));
+        break;
+      case 1:
+        fill(color(0,255,0));
+        break;
+      case 2:
+        fill(color(0,0,255));
+        break;
+    }
+    if (i%2==0) {
+      stroke(0);
+    }
+    else {
+      switch (predictedClassLabels.get(i)) {
+        case 0:
+          stroke(color(255,0,0));
+          break;
+        case 1:
+          stroke(color(0,255,0));
+          break;
+        case 2:
+          stroke(color(0,0,255));
+          break;
+      }
+    }
+
+    circle(100*x,100*y,10);
+  }
 }
 function Train(){
   for (var i = 0; i < numSamples; i+=2) {
     var currentData = irisData.pick(i);
-    var currentFeatures = currentData.slice([0,4]);
+    var currentFeatures = currentData.slice([0,2]);
     var currentLabel = currentData.get(4);
+      console.log(currentFeatures.tolist());
     knnClassifier.addExample(currentFeatures.tolist(),currentLabel);
   }
   trainingCompleted = true;
 }
 function Test(){
   var currentData = irisData.pick(testingSampleIndex);
-  var currentFeatures = currentData.slice([0,4]);
+  var currentFeatures = currentData.slice([0,2]);
   var realLabel = currentData.get(4);
   var predicted = knnClassifier.classify(currentFeatures.tolist(),GotResults);
   //console.log(i,currentFeatures,flowerTypes[realLabel],predicted);
 }
 
 function GotResults(err,result){
-  console.log(testingSampleIndex,result);
+  predictedClassLabels.put(testingSampleIndex,result);//console.log();
   testingSampleIndex+=2;
   if (testingSampleIndex>numSamples) {
     testingSampleIndex=1;
