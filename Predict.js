@@ -1,6 +1,9 @@
 trainingCompleted = false;
 const flowerTypes = ["Iris-setosa","Iris-versicolor","Iris-virginica"]
 const knnClassifier = ml5.KNNClassifier();
+
+var testingSampleIndex = 1;
+
 var irisData =nj.array([[5.1,3.5,1.4,0.2,0],
                         [4.9,3  ,1.4,0.2,0],
                         [4.7,3.2,1.3,0.2,0],
@@ -159,16 +162,29 @@ function draw(){
   if (!trainingCompleted) {
     Train();
   }
-  //Test();
+  Test();
 }
 function Train(){
   for (var i = 0; i < numSamples; i+=2) {
     var currentData = irisData.pick(i);
     var currentFeatures = currentData.slice([0,4]);
     var currentLabel = currentData.get(4);
-    knnClassifier.addExample(currentFeatures.tolist(),currentLabel)
+    knnClassifier.addExample(currentFeatures.tolist(),currentLabel);
   }
   trainingCompleted = true;
 }
 function Test(){
+  var currentData = irisData.pick(testingSampleIndex);
+  var currentFeatures = currentData.slice([0,4]);
+  var realLabel = currentData.get(4);
+  var predicted = knnClassifier.classify(currentFeatures.tolist(),GotResults);
+  //console.log(i,currentFeatures,flowerTypes[realLabel],predicted);
+}
+
+function GotResults(err,result){
+  console.log(testingSampleIndex,result);
+  testingSampleIndex+=2;
+  if (testingSampleIndex>numSamples) {
+    testingSampleIndex=1;
+  }
 }
