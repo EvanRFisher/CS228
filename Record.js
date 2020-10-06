@@ -52,14 +52,10 @@ function HandleBone(bone, framebox, fingerId, tipCol, baseCol){
 }
 
 function RecordData(hand,framebox){
-  if (previousNumHands == 1 && currentNumHands == 2) {
-    currentSample = currentSample+1;
-    if (currentSample == numsamples) {
-      currentSample =0;
+  if ((previousNumHands == 2 && currentNumHands == 1)||(currentSample>0)) {
+    if (previousNumHands == 2 && currentNumHands == 1) {
+      background(0);
     }
-  }
-  if (previousNumHands == 2 && currentNumHands == 1) {
-    background(0);
 
     for (var finger = 0; finger < 5; finger++) {
       for (var boneNum = 0; boneNum < 4; boneNum++) {
@@ -79,7 +75,12 @@ function RecordData(hand,framebox){
         framesOfData.set(finger,boneNum,5,currentSample, normedTip[2]);
       }
     }
+    currentSample = currentSample+1;
+    if(currentSample==numsamples){
+      currentSample=0;
+      console.log(framesOfData.toString());
+    }
+    //console.log(currentSample);
 
-    console.log(framesOfData.toString());
   }
 }
