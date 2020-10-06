@@ -1,7 +1,8 @@
 var controllerOptions = {};
+nj.config.printThreshold = 1000;
 var rawXMin = Number.POSITIVE_INFINITY, rawXMax = Number.NEGATIVE_INFINITY, rawYMin = Number.POSITIVE_INFINITY, rawYMax = Number.NEGATIVE_INFINITY;
 var previousNumHands = 0, currentNumHands = 0;
-const numsamples = 2;
+const numsamples = 100;
 var currentSample =0;
 var framesOfData = nj.zeros([5,4,6,numsamples]);
 
