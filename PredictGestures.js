@@ -2,7 +2,7 @@ var trainingCompleted = false;
 const knnClassifier = ml5.KNNClassifier();
 var controllerOptions = {};
 var oneFrameOfData = nj.zeros([5,4,6]);
-var targetDigit = 6;
+var targetDigit = 9;
 var runningAccuracy =0;
 numFrames = 0;
 
@@ -17,19 +17,84 @@ Leap.loop(controllerOptions, function (frame){
 });
 
 function Train(){
+  for (var i = 0; i < train0.shape[3]; i++) {
+    var dataslice = train0.pick(null,null,null,i);
+    CleanData(dataslice);
+    var features = dataslice.reshape(120).tolist();
+    console.log("Adding 0 training sample #"+i+".");
+    knnClassifier.addExample(features,0);
+  }
+
+  for (var i = 0; i < train1.shape[3]; i++) {
+    var dataslice = train1.pick(null,null,null,i);
+    CleanData(dataslice);
+    var features = dataslice.reshape(120).tolist();
+    console.log("Adding 1 training sample #"+i+".");
+    knnClassifier.addExample(features,1);
+  }
+
+  for (var i = 0; i < train2.shape[3]; i++) {
+    var dataslice = train2.pick(null,null,null,i);
+    CleanData(dataslice);
+    var features = dataslice.reshape(120).tolist();
+    console.log("Adding 2 training sample #"+i+".");
+    knnClassifier.addExample(features,2);
+  }
+
+  for (var i = 0; i < train3.shape[3]; i++) {
+    var dataslice = train3.pick(null,null,null,i);
+    CleanData(dataslice);
+    var features = dataslice.reshape(120).tolist();
+    console.log("Adding 3 training sample #"+i+".");
+    knnClassifier.addExample(features,3);
+  }
+
+  for (var i = 0; i < train4.shape[3]; i++) {
+    var dataslice = train4.pick(null,null,null,i);
+    CleanData(dataslice);
+    var features = dataslice.reshape(120).tolist();
+    console.log("Adding 4 training sample #"+i+".");
+    knnClassifier.addExample(features,4);
+  }
+
+  for (var i = 0; i < train5.shape[3]; i++) {
+    var dataslice = train5.pick(null,null,null,i);
+    CleanData(dataslice);
+    var features = dataslice.reshape(120).tolist();
+    console.log("Adding 5 training sample #"+i+".");
+    knnClassifier.addExample(features,5);
+  }
+
   for (var i = 0; i < train6.shape[3]; i++) {
     var dataslice = train6.pick(null,null,null,i);
-    CleanData(dataslice);
+      CleanData(dataslice);
     var features = dataslice.reshape(120).tolist();
     console.log("Adding 6 training sample #"+i+".");
     knnClassifier.addExample(features,6);
   }
+
   for (var i = 0; i < train7.shape[3]; i++) {
     var dataslice = train7.pick(null,null,null,i);
     CleanData(dataslice);
     var features = dataslice.reshape(120).tolist();
     console.log("Adding 7 training sample #"+i+".");
     knnClassifier.addExample(features,7);
+  }
+
+  for (var i = 0; i < train8.shape[3]; i++) {
+    var dataslice = train8.pick(null,null,null,i);
+    CleanData(dataslice);
+    var features = dataslice.reshape(120).tolist();
+    console.log("Adding 8 training sample #"+i+".");
+    knnClassifier.addExample(features,8);
+  }
+
+  for (var i = 0; i < train9.shape[3]; i++) {
+    var dataslice = train9.pick(null,null,null,i);
+    CleanData(dataslice);
+    var features = dataslice.reshape(120).tolist();
+    console.log("Adding 9 training sample #"+i+".");
+    knnClassifier.addExample(features,9);
   }
   trainingCompleted = true;
 }
