@@ -10,6 +10,7 @@ function draw(){
   clear();
   if (!trainingCompleted) {
     Train();
+    console.log("Training complete.");
   }
   Test();
 
@@ -18,17 +19,19 @@ function draw(){
 function Train(){
   for (var i = 0; i < train6.shape[3]; i++) {
     var features = train6.pick(null,null,null,i).reshape(120).tolist();
+    console.log("Adding 6 training sample #"+i+".");
     knnClassifier.addExample(features,6);
   }
   for (var i = 0; i < train7.shape[3]; i++) {
-    var features = train1.pick(null,null,null,i).reshape(120).tolist();
+    var features = train7.pick(null,null,null,i).reshape(120).tolist();
+    console.log("Adding 7 training sample #"+i+".");
     knnClassifier.addExample(features,7);
   }
   trainingCompleted = true;
 }
 function Test(){
-  for (var i = 0; i < train0.shape[3]; i++) {
-    var features = train0.pick(null,null,null,i).reshape(120).tolist();
+  for (var i = 0; i < test.shape[3]; i++) {
+    var features = test.pick(null,null,null,i).reshape(120).tolist();
     knnClassifier.classify(features,GotResults);
   }
 }
