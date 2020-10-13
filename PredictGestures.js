@@ -2,7 +2,9 @@ var trainingCompleted = false;
 const knnClassifier = ml5.KNNClassifier();
 var controllerOptions = {};
 var oneFrameOfData = nj.zeros([5,4,6]);
-
+var targetDigit = 6;
+var runningAccuracy =0;
+numFrames = 0;
 
 Leap.loop(controllerOptions, function (frame){
   clear();
@@ -16,25 +18,63 @@ Leap.loop(controllerOptions, function (frame){
 
 function Train(){
   for (var i = 0; i < train6.shape[3]; i++) {
-    var features = train6.pick(null,null,null,i).reshape(120).tolist();
+    var dataslice = train6.pick(null,null,null,i);
+    CleanData(dataslice);
+    var features = dataslice.reshape(120).tolist();
     console.log("Adding 6 training sample #"+i+".");
     knnClassifier.addExample(features,6);
   }
   for (var i = 0; i < train7.shape[3]; i++) {
-    var features = train7.pick(null,null,null,i).reshape(120).tolist();
+    var dataslice = train7.pick(null,null,null,i);
+    CleanData(dataslice);
+    var features = dataslice.reshape(120).tolist();
     console.log("Adding 7 training sample #"+i+".");
     knnClassifier.addExample(features,7);
   }
   trainingCompleted = true;
 }
 function Test(){
+  CleanData(oneFrameOfData);
+  //console.log(oneFrameOfData.slice([],[],[0,6,3]).mean());
   var features = oneFrameOfData.reshape(120).tolist();
   knnClassifier.classify(features,GotResults);
 }
 function GotResults(err,result){
-  console.log(result);
+  numFrames+=1;
+  runningAccuracy = (runningAccuracy*(numFrames-1)+(result.label == targetDigit))/numFrames;
+  console.log(numFrames, result.label, runningAccuracy);
+
 }
 
+
+function CleanData(data){
+  xValues = data.slice([],[],[0,6,3]);
+  xShift = 0.5 - xValues.mean();
+
+  yValues = data.slice([],[],[1,6,3]);
+  yShift = 0.5 - yValues.mean();
+
+  zValues = data.slice([],[],[2,6,3]);
+  zShift = 0.5 - zValues.mean();
+  for (var f = 0; f < 5; f++) { // For each finger
+    for (var b = 0; b < 4; b++) { //And bone
+      unshiftedX1 = data.get(f,b,0);
+      oneFrameOfData.set(f,b,0,unshiftedX1+xShift);
+      unshiftedX2 = data.get(f,b,3);
+      oneFrameOfData.set(f,b,3,unshiftedX2+xShift);
+
+      unshiftedY1 = data.get(f,b,1);
+      oneFrameOfData.set(f,b,1,unshiftedY1+yShift);
+      unshiftedY2 = data.get(f,b,4);
+      oneFrameOfData.set(f,b,4,unshiftedY2+yShift);
+
+      unshiftedZ1 = data.get(f,b,2);
+      oneFrameOfData.set(f,b,2,unshiftedZ1+zShift);
+      unshiftedZ2 = data.get(f,b,5);
+      oneFrameOfData.set(f,b,5,unshiftedZ2+zShift);
+    }
+  }
+}
 
 function HandleFrame(frame){
   currentNumHands = frame.hands.length;
